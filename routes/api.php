@@ -15,19 +15,25 @@ use App\Http\Controllers\AuthController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::apiResource('posts', PostController::class);
-    Route::apiResource('authors', AuthorController::class);
-    Route::get('/posts/search/{title}', [PostController::class, 'search']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-
+//signup and login routes
 Route::post('/signup', [AuthController::class, 'sign_up']);
 Route::post('/login', [AuthController::class, 'login']);
+
+//public post route
+Route::get('/posts/search/{title}', [PostController::class, 'search']);
+Route::get('/post/{id}/author', [PostController::class, 'getAuthor']);
+
+//public author route
+Route::get('/author/{id}/posts', [AuthorController::class, 'getPosts']);
+
+//private posts and authors routes
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    //posts
+    Route::apiResource('posts', PostController::class);
+    //authors
+    Route::apiResource('authors', AuthorController::class);
+    //logout
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
 
 

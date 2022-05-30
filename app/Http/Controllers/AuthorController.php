@@ -77,4 +77,15 @@ class AuthorController extends Controller
     {
         return Author::where('author_name', 'like', '%'. $name .'%')->get();
     }
+
+    /**
+     * Get author posts
+     * 
+     *@param int author_id
+     *@return posts
+    */
+    public function getPosts($author_id)
+    {
+        return Author::findOrFail($author_id)->posts;
+    }
 }

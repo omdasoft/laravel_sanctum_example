@@ -87,4 +87,15 @@ class PostController extends Controller
     {
         return Post::where('title','like', '%'.$title.'%')->get();
     }
+
+    /**
+     * Display the specified author 
+     * 
+     * @param int $post_id
+     * @return author details
+     */
+    public function getAuthor($post_id)
+    {
+      return Post::findOrFail($post_id)->author;
+    }
 }
